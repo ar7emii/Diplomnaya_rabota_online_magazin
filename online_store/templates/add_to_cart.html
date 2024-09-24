@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Add to cart{% endblock %}
+{% block head %}
+    <script>
+        setTimeout(function(){
+            var previousPage = document.referrer;
+            window.location.href = previousPage;
+        }, 0.1); // Redirect after 1 second (1000 milliseconds)
+    </script>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <h3>Товар добавлен в корзину</h3>
+  <button class="btn btn-danger px-5" onclick="goBack()">Go Back</button>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+
+<div class="container mb-5">
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-dark text-light">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="row">
+                                <div class="col-md-2 fs-2 me-2">&#128663;</div>
+                                <div class="col-md-9 fs-6">Бесплатная доставка по Минску от 80 руб.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark text-light">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="row">
+                                <div class="col-md-2 fs-2 me-2">&#128666;</div>
+                                <div class="col-md-9 fs-6">Оперативная и бережная доставка по Беларуси</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark text-light">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="row">
+                                <div class="col-md-2 fs-2 me-2">&#128092;</div>
+                                <div class="col-md-9 fs-6">Самовывоз в Минске, без выходных</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark text-light">
+                <div class="card-body">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col-md-2 fs-2 me-2">&#128179;</div>
+                            <div class="col-md-9 fs-6">Оплата онлайн, карты рассрочек</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h4 class="text-light">Популярное:</h4>
+    <hr class="hr">
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            {% for p in product_list %}
+                {% if forloop.counter0|divisibleby:4 %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row">
+                {% endif %}
+                            <div class="col-md-3 mb-2" style="height: 32rem;">
+                                <div class="p-2 product-card rounded-3 h-100 d-flex flex-column">
+                                    <div>
+                                        <div class="image-container">
+                                            <a href="{% url 'ttrpg_store_app:product_details' p.slug %}">
+                                                <img src="{{ p.image.url }}" class="img-fluid" alt="{{ p.title }}">
+                                            </a>
+                                        </div>
+                                        <div class="product-details">
+                                            <h5 class="product-title">
+                                                <a href="{% url 'ttrpg_store_app:product_details' p.slug %}" class="link-light">
+                                                    {{ p.title }}
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="mt-auto">
+                                        <div class="product-price text-danger">
+                                            <strike class="text-secondary">BYN {{ p.marked_price }}</strike>  BYN {{ p.selling_price }}
+                                        </div>
+                                        <i class="product-price
+                                        {% if p.stock == 'Нет в наличии' %}
+                                            text-danger
+                                        {% else %}
+                                            text-light
+                                        {% endif %}
+                                        ">
+                                            {{ p.stock }}
+                                        </i><br>
+                                        <a href="{% url 'ttrpg_store_app:add_to_cart' p.id %}" class="btn btn-outline-light mt-3">В корзину</a>
+                                    </div>
+                                </div>
+                            </div>
+                {% if forloop.counter0|add:1|divisibleby:4 or forloop.last %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- Navigation arrows -->
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
+    </div>
+    <hr class="hr mb-4">
+    <div class="card bg-dark text-light rounded-3">
+        <div class="card-body">
+            <h4 class="card-title text-center">Интернет-магазин настольных игр в Минске BOARDGAMES-STORE.BY</h4>
+            <p class="card-text">Boardgames Store – это огромный выбор душевных и веселых настольных игр, превосходное качество и приятные цены. Все лучшее, что придумано в мире, собрано здесь. Мы предлагаем самые интересные, увлекательные и полезные игры, среди которых есть как классические варианты, уже хорошо известные всем, так и новинки из мира игровой индустрии, о которых Вы, возможно, еще не слышали. Одни настолки тренируют выдержку и внимательность, другие развивают логическое мышление, третьи – воображение, четвертые помогают формировать коммуникативные навыки. Увлечение по вкусу у нас найдут люди абсолютно разного возраста и статуса. Если вы хотите купить настольную игру, мы подберем подходящий вариант ребенку и взрослому, учителю и коллеге по бизнесу, для семьи и любой компании.</p>
+            <p class="card-text">Покупая у нас, Вы получаете ряд неоспоримых преимуществ:</p>
+            <ul class="card-text">
+                <li>продажа настольных игр осуществляется по невероятно выгодным ценам;</li>
+                <li>самая большая коллекция в Беларуси – более тридцати тысяч изданий (Монополия, Манчкин, Свинтус, Уно и др.);</li>
+                <li>продажа по всей Беларуси с доставкой (подробнее об этом можно узнать в разделе «Доставка и оплата»);</li>
+                <li>удобный сервис подбора и поиска игр;</li>
+                <li>регистрируясь на сайте, Вы получаете 5 бонусных баллов.</li>
+            </ul>
+            <p class="card-text">Воспользуйтесь нашими предложениями и выгодно приобретайте всевозможные игры в Минске и с доставкой по Беларуси, которые помогут объединить друзей и близких и подарят Вам массу положительных эмоций (мы также предлагаем варианты настольных игр в подарок). Красочные издания станут отличным подарком на любой праздник для всех от мала до велика, обеспечат дружелюбную и теплую атмосферу на мероприятии, помогут расслабиться, повеселиться и поближе узнать друг друга.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

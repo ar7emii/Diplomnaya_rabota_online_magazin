@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}All products{% endblock %}
+
+{% block content %}
+<div class="container mb-5">
+    {% for cat in categories %}
+    <h4 class="mt-5 text-light">{{ cat.title }}</h4>
+    <hr class="hr">
+    <div class="row">
+        {% for p in cat.product_set.all %}
+            <div class="col-md-3 mb-4" style="height: 32rem;">
+                <div class="p-2 product-card border border-dark rounded-3 h-100 d-flex flex-column">
+                    <div>
+                        <div class="image-container">
+                            <a href="{% url 'ttrpg_store_app:product_details' p.slug %}"><img src="{{ p.image.url }}" class="img-fluid border-dark rounded-3" alt="{{ p.title }}"></a>
+                        </div>
+                        <div class="product-details">
+                            <h5 class="product-title"><a href="{% url 'ttrpg_store_app:product_details' p.slug %}" style="color: #fff;">{{ p.title }}</a></h5>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="product-price text-danger"><strike class="text-secondary">BYN {{ p.marked_price }}</strike>  BYN {{ p.selling_price }}</div>
+                        <i class="product-price
+                        {% if p.stock == 'Нет в наличии' %}
+                            text-danger
+                        {% else %}
+                            text-light
+                        {% endif %}
+                        ">
+                            {{ p.stock }}
+                        </i><br>
+                        <a href="{% url 'ttrpg_store_app:add_to_cart' p.id %}" class="btn btn-outline-light mt-3">В корзину</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

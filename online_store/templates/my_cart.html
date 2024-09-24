@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My cart{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-10">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body">
+          <h3 class="card-title">Товары в корзине</h3>
+          <div class="table-responsive text-nowrap mt-3">
+          <table class="table table-dark">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Товар</th>
+                <th>Цена, руб.</th>
+                <th>Количество</th>
+                <th>Сумма, руб.</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for smth in view_my_cart.cartproduct_set.all %}
+              <tr>
+                <td class="align-middle">
+                  <img src="{{ smth.product.image.url }}" class="img-fluid" alt="{{ smth.product.title }}">
+                </td>
+                <td class="align-middle">
+                  <a href="{% url 'ttrpg_store_app:product_details' smth.product.slug %}" class="link-light">{{smth.product.title}}</a>
+                </td>
+                <td class="align-middle">{{smth.rate}}</td>
+                <td class="align-middle">{{smth.quantity}}</td>
+                <td class="align-middle">{{smth.subtotal}}</td>
+                <td class="text-center align-middle">
+                  <div class="d-flex justify-content-center">
+                    <a href="{% url 'ttrpg_store_app:my_cart_management' smth.id %}?action=inc" class="btn btn-dark"><img
+                        width='15rem' height="18rem" src='{% static "plus-solid.svg" %}' alt="+"
+                        style="filter: brightness(0) invert(1);"></a>
+                    <a href="{% url 'ttrpg_store_app:my_cart_management' smth.id %}?action=dcr" class="btn btn-dark"><img
+                        width='15rem' height="18rem" src='{% static "minus-solid.svg" %}' alt="-"
+                        style="filter: brightness(0) invert(1);"></a>
+                    <a href="{% url 'ttrpg_store_app:my_cart_management' smth.id %}?action=rmv" class="btn btn-dark"><img
+                        width='15rem' height="18rem" src='{% static "trash-solid.svg" %}' alt="X"
+                        style="filter: brightness(0) invert(1);"></a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}
+              <tr>
+                <th colspan="4" class="text-right align-middle">Итоговая сумма, руб. :</th>
+                <th class="align-middle">{{view_my_cart.total}}</th>
+                {% if view_my_cart.cartproduct_set.all %}
+                <th class="align-middle"><a href="{% url 'ttrpg_store_app:my_cart_delete' %}"
+                    class="btn btn-outline-light">Очистить корзину</a></th>
+                {% endif %}
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          {% if view_my_cart.cartproduct_set.all %}
+          <div class="row">
+            <div class="col-md-2 text-center">
+              <a href="{% url 'ttrpg_store_app:checkout' %}" class="btn btn-outline-light">Перейти к оплате</a>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body">
+          <h4 class="card-title text-center">Похожее:</h4>
+          <!-- Carousel -->
+          <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              {% for p in product_list %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="p-2 product-card rounded-3">
+                      <div>
+                        <div class="image-container">
+                          <a href="{% url 'ttrpg_store_app:product_details' p.slug %}">
+                            <img src="{{ p.image.url }}" class="img-fluid" alt="{{ p.title }}">
+                          </a>
+                        </div>
+                        <div class="product-details">
+                          <h6 class="product-title">
+                            <a href="{% url 'ttrpg_store_app:product_details' p.slug %}" class="link-light">
+                              {{ p.title|slice:":22" }}...
+                            </a>
+                          </h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

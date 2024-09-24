@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{product.title}}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h5 class="text-light mb-5">
+    {% if product.category.pk == 1 %}
+      <a href="/all-products?category=card-games" class="link-light">{{product.category}}</a>
+    {% elif product.category.pk == 2 %}
+      <a href="/all-products?category=role-playing-games" class="link-light">{{product.category}}</a>
+    {% elif product.category.pk == 3 %}
+      <a href="/all-products?category=rulebooks" class="link-light">{{product.category}}</a>
+    {% endif %}
+    > <a href="" class="link-light">{{product.title}}</a>
+  </h5>
+  <div class="row">
+    <div class="col-md-4">
+      <img src="{{product.image.url}}" alt="" class="img-fluid">
+      <p class="text-light text-center mt-3" style="font-size: 1.2rem;"> &#128065; {{product.view_count}} {{prosmotr_correct_word}}</p>
+    </div>
+    <div class="col-md-8">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body p-5">
+          <h2>{{product.title}}</h2>
+          <h5 class="text-light mt-3 mb-3">Цена: <strike class="text-secondary">BYN {{ product.marked_price }}</strike><span class="text-danger"> BYN {{ product.selling_price }}</span></h5>
+          <a href="{% url 'ttrpg_store_app:add_to_cart' product.id %}" class="btn btn-lg btn-outline-light mb-2">Добавить в корзину</a>
+          <hr>
+          <p>Наличие: <span class="product-price
+          {% if product.stock == 'Нет в наличии' %}
+              text-danger
+          {% else %}
+              text-light
+          {% endif %}
+          ">
+              {{ product.stock }}
+          </span>
+          </p>
+          <p class="text-light">Гарантия: {{product.warranty}}</p>
+          <p class="text-light">Возврат: {{product.return_policy}}</p>
+          <hr>
+          <span class="text-light mb-3">Описание:</span>
+          <p>{{product.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

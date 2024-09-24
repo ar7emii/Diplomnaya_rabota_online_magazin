@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<style>
+  .errorlist {
+    color: red;
+  }
+</style>
+
+<div class="container vh-70">
+  <div class="row">
+    <div class="col-md-6 order-md-1">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="card-title" style="font-size: 1.5rem;">Оплата и доставка</span>
+            <div class="d-flex">
+              <a><img width='40rem' height="40rem" src='{% static "cc-visa.svg" %}' alt="" style="filter: brightness(0) invert(1);"/></a>&nbsp;
+              <a><img width='40rem' height="40rem" src='{% static "cc-mastercard.svg" %}' alt="" style="filter: brightness(0) invert(1);"/></a>
+            </div>
+          </div>
+          <form action="" method="POST" class="row g-3">
+            {% csrf_token %}
+            <div class="col-md-12">
+              <label for="ordered_by" class="form-label">{{ checkout_form.ordered_by.label}}</label>
+              {{ checkout_form.ordered_by }}
+            </div>
+            <div class="col-md-12">
+              <label for="shipping_address" class="form-label">{{ checkout_form.shipping_address.label }}</label>
+              {{ checkout_form.shipping_address }}
+            </div>
+            <div class="col-md-12">
+              <label for="mobile" class="form-label">{{ checkout_form.mobile.label }}</label>
+              {{ checkout_form.mobile }}
+            </div>
+            <div class="col-md-12">
+              <label for="email" class="form-label">{{ checkout_form.email.label }}</label>
+              {{ checkout_form.email }}
+            </div>
+            <div class="col-md-12">
+              <button class="btn btn-outline-light mt-2">Заказать</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 order-md-2">
+      <div class="card bg-dark text-white" style="border-radius: 1rem;">
+        <div class="card-body">
+          <h3 class="card-title">Товары в корзине</h3>
+          <table class="table table-dark mt-3">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Сумма</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for smth in view_my_cart.cartproduct_set.all %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{smth.product.title}}</td>
+                  <td>{{smth.rate}}</td>
+                  <td>{{smth.quantity}}</td>
+                  <td>{{smth.subtotal}}</td>
+                </tr>
+              {% endfor %}
+              <tr>
+                <th colspan="4" class="text-right">Итоговая сумма: </th>
+                <th>{{view_my_cart.total}} BYN</th>
+              </tr>
+            </tbody>
+          </table>
+          <a href="{% url 'ttrpg_store_app:my_cart' %}" class="btn btn-outline-light mt-2">Изменить корзину</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

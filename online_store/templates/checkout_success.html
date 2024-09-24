@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Заказ принят{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="card bg-dark text-white mx-auto d-flex justify-content-center w-50" style="border-radius: 1rem;">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="text-center">Уважаемый
+            {% if user.is_authenticated %}
+              {{ user.username }}!
+            {% else %}
+              покупатель!
+            {% endif %}
+          </h2>
+          <div class="mt-4" style="font-size: 1.2rem;">
+            &nbsp;&nbsp;&nbsp;&nbsp;Спасибо за ваш заказ на нашем сайте! Мы очень ценим ваше доверие и выбор нашей компании. Мы готовимся к выполнению вашего заказа и обеспечим его своевременную доставку. Ожидайте звонка нашего оператора. Если у вас возникнут вопросы или потребуется дополнительная помощь, наша команда всегда готова помочь.
+          </div>
+          <div class="mt-3" style="font-size: 1.2rem;">
+            С наилучшими пожеланиями,<br>
+            Команда BOARDGAMES-STORE.BY
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

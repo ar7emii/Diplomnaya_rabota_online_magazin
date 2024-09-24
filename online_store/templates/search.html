@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Поиск{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="text-light">Результаты поиска по запросу "{{ request.GET.keyword }}":</h3>
+      <hr class="hr">
+      <div class="row">
+        {% for result in results %}
+        <div class="col-md-3 mb-4" style="height: 32rem;">
+          <div class="p-2 product-card border border-dark rounded-3 h-100 d-flex flex-column">
+            <div>
+              <div class="image-container">
+                <a href="{% url 'ttrpg_store_app:product_details' result.slug %}">
+                  <img src="{{ result.image.url }}" class="img-fluid border-dark rounded-3" alt="{{ result.title }}">
+                </a>
+              </div>
+              <div class="product-details">
+                <h5 class="product-title">
+                  <a href="{% url 'ttrpg_store_app:product_details' result.slug %}" style="color: #fff;">
+                    {{ result.title }}
+                  </a>
+                </h5>
+              </div>
+            </div>
+            <div class="mt-auto">
+              <div class="product-price text-danger">
+                <strike class="text-secondary">BYN {{ result.marked_price }}</strike> BYN {{ result.selling_price }}
+              </div>
+              <i class="product-price
+              {% if result.stock == 'Нет в наличии' %}
+                  text-danger
+              {% else %}
+                  text-light
+              {% endif %}
+              ">
+                  {{ result.stock }}
+              </i><br>
+              <a href="{% url 'ttrpg_store_app:add_to_cart' result.id %}" class="btn btn-outline-light mt-3">В корзину</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
